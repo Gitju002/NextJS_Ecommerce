@@ -1,12 +1,5 @@
-import { Button } from "@/components/ui/button";
+const index = () => {
+  return <div>Landing Page</div>;
+};
 
-export default function Page() {
-  return (
-    <>
-      <h1>Hello, Next.js!</h1>
-      <Button variant={"secondary"} size={"lg"}>
-        Click me
-      </Button>
-    </>
-  );
-}
+export default index;
