@@ -1,4 +1,4 @@
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,9 @@ import {
 import ReactSelect from "react-select";
 import { Textarea } from "@/components/ui/textarea";
 import { multiSelectStyles } from "@/utils/colorOptions";
+import { useAppDispatch } from "@/store/hooks";
+import { addProduct } from "@/store/features/productSlice";
+import { fileToBase64 } from "@/utils/convert";
 
 const sizeSchema = z.object({
   label: z.string(),
@@ -36,10 +39,10 @@ const colorSchema = z.object({
 });
 
 const formSchema = z.object({
-  Picture: z.instanceof(File).nullable(),
+  picture: z.instanceof(File).nullable(),
   product_name: z.string().min(2).max(50),
-  category: z.string().nonempty("Category is required"),
-  sizes: z.array(sizeSchema).min(1, "At least one size is required"),
+  product_category: z.string().nonempty("Category is required"),
+  product_sizes: z.array(sizeSchema).min(1, "At least one size is required"),
   product_color: z.array(colorSchema).nonempty("Color is required"),
   product_price: z.string().min(1),
   product_description: z.string().min(10).max(500),
@@ -66,24 +69,30 @@ const sizeOptions = [
 ];
 
 export default function MyForm() {
+  const [mounted, setMounted] = useState(false);
   const fileref = useRef<HTMLInputElement | null>(null);
-
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       product_name: "",
-      category: "",
-      sizes: [],
+      product_category: "",
+      product_sizes: [],
       product_color: [],
       product_price: "0",
       product_description: "",
-      Picture: null,
+      picture: null,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
+      const pictureBase64 = values.picture
+        ? await fileToBase64(values.picture)
+        : null;
+
+      const payload = { ...values, picture: pictureBase64 };
+      dispatch(addProduct(payload));
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
@@ -95,6 +104,14 @@ export default function MyForm() {
     }
   }
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <section className="container py-5 bg-slate-200">
       <Form {...form}>
@@ -104,7 +121,7 @@ export default function MyForm() {
         >
           <FormField
             control={form.control}
-            name="Picture"
+            name="picture"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xl text-slate-500">
@@ -135,13 +152,13 @@ export default function MyForm() {
                     />
                   </div>
                 </FormControl>
-                {form.watch("Picture") !== null && (
+                {form.watch("picture") !== null && (
                   <div className="flex justify-between items-center w-full border rounded-sm p-2 text-slate-500">
-                    <p>File Name: {form.watch("Picture")?.name}</p>
-                    {form.watch("Picture")?.size !== undefined && (
+                    <p>File Name: {form.watch("picture")?.name}</p>
+                    {form.watch("picture")?.size !== undefined && (
                       <p>
                         File Size:{" "}
-                        {(form.watch("Picture")?.size! / 1024).toFixed(2)} KB
+                        {(form.watch("picture")?.size! / 1024).toFixed(2)} KB
                       </p>
                     )}
                     <Button
@@ -186,7 +203,7 @@ export default function MyForm() {
 
           <FormField
             control={form.control}
-            name="category"
+            name="product_category"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xl text-slate-500">
@@ -198,14 +215,14 @@ export default function MyForm() {
                 >
                   <FormControl>
                     <SelectTrigger className="text-black">
-                      <SelectValue placeholder="Select product category" />
+                      <SelectValue placeholder="Select product product_category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {["Electronics", "Clothing", "Footwear", "Accessories"].map(
-                      (category, index) => (
-                        <SelectItem key={index} value={category}>
-                          {category}
+                      (product_category, index) => (
+                        <SelectItem key={index} value={product_category}>
+                          {product_category}
                         </SelectItem>
                       )
                     )}
@@ -220,7 +237,7 @@ export default function MyForm() {
             <div className="col-span-1">
               <FormField
                 control={form.control}
-                name="sizes"
+                name="product_sizes"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xl text-slate-500">
