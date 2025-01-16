@@ -70,6 +70,27 @@ export const productsSlice = createSlice({
         state.message = "Products fetched successfully";
       }
     },
+    deleteProduct: (state, action: PayloadAction<string>) => {
+      const storedProducts = localStorage.getItem("products");
+      state.isLoading = true;
+      if (storedProducts === null) {
+        state.isLoading = false;
+        state.error = true;
+        state.success = false;
+        state.message = "No products found";
+      } else {
+        const products = JSON.parse(storedProducts);
+        const updatedProducts = products.filter(
+          (product: product) => product.product_name !== action.payload
+        );
+        localStorage.setItem("products", JSON.stringify(updatedProducts));
+        state.products = updatedProducts;
+        state.isLoading = false;
+        state.error = false;
+        state.success = true;
+        state.message = "Product deleted successfully";
+      }
+    },
     resetProductState: (state) => {
       state.success = false;
       state.error = false;
@@ -78,7 +99,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { addProduct, getProducts, resetProductState } =
+export const { addProduct, getProducts, deleteProduct, resetProductState } =
   productsSlice.actions;
 
 export const selectProduct = (state: RootState) => state.products;

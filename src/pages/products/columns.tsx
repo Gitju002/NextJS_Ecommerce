@@ -1,5 +1,13 @@
+import { Button } from "@/components/ui/button";
+import {
+  deleteProduct,
+  resetProductState,
+} from "@/store/features/productSlice";
 import { product } from "@/utils/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { Trash } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<product>[] = [
   {
@@ -52,5 +60,25 @@ export const columns: ColumnDef<product>[] = [
     accessorKey: "product_description",
     header: "Product Description",
     cell: ({ row }) => <div>{row.original.product_description}</div>,
+  },
+  {
+    header: "Delete Product",
+    cell: ({ row }) => {
+      const dispatch = useDispatch();
+      return (
+        <Button
+          className="bg-red-500 text-white"
+          variant={"ghost"}
+          size={"icon"}
+          onClick={() => {
+            dispatch(deleteProduct(row.original.product_name));
+            toast.success("Product deleted successfully.");
+            dispatch(resetProductState());
+          }}
+        >
+          <Trash size={20} />
+        </Button>
+      );
+    },
   },
 ];
