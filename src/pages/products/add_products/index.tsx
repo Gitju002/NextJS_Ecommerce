@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +27,8 @@ import { multiSelectStyles } from "@/utils/colorOptions";
 import { useAppDispatch } from "@/store/hooks";
 import { addProduct } from "@/store/features/productSlice";
 import { fileToBase64 } from "@/utils/convert";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const sizeSchema = z.object({
   label: z.string(),
@@ -71,6 +73,9 @@ const sizeOptions = [
 export default function MyForm() {
   const [mounted, setMounted] = useState(false);
   const fileref = useRef<HTMLInputElement | null>(null);
+  const { success, error, message, isLoading } = useSelector(
+    (state: RootState) => state.products
+  );
   const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -92,12 +97,8 @@ export default function MyForm() {
         : null;
 
       const payload = { ...values, picture: pictureBase64 };
+
       dispatch(addProduct(payload));
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
@@ -108,12 +109,21 @@ export default function MyForm() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
+  useLayoutEffect(() => {
+    if (success) {
+      toast.success(message);
+      form.reset();
+    } else {
+      toast.error(message);
+    }
+  }, [success, error, message]);
+
+  if (!mounted || isLoading) {
     return null;
   }
 
   return (
-    <section className="container py-5 bg-slate-200">
+    <section className="py-5 bg-slate-500">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -155,12 +165,16 @@ export default function MyForm() {
                 {form.watch("picture") !== null && (
                   <div className="flex justify-between items-center w-full border rounded-sm p-2 text-slate-500">
                     <p>File Name: {form.watch("picture")?.name}</p>
-                    {form.watch("picture")?.size !== undefined && (
+                    {
                       <p>
                         File Size:{" "}
-                        {(form.watch("picture")?.size! / 1024).toFixed(2)} KB
+                        {form.watch("picture")?.size !== undefined
+                          ? `${(
+                              (form.watch("picture")?.size ?? 0) / 1024
+                            ).toFixed(2)} KB`
+                          : "Size not available"}
                       </p>
-                    )}
+                    }
                     <Button
                       variant="ghost"
                       type="button"
@@ -215,7 +229,7 @@ export default function MyForm() {
                 >
                   <FormControl>
                     <SelectTrigger className="text-black">
-                      <SelectValue placeholder="Select product product_category" />
+                      <SelectValue placeholder="Select product category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

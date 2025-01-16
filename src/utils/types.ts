@@ -1,4 +1,4 @@
-type product = {
+export type product = {
   picture: string | null;
   product_name: string;
   product_category: string;
