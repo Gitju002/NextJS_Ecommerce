@@ -117,8 +117,10 @@ export default function MyForm() {
     } else if (error) {
       toast.error(message);
     }
-    dispatch(resetProductState());
-  }, [success, error, message]);
+    return () => {
+      dispatch(resetProductState());
+    };
+  }, [success, error, message, form, dispatch]);
 
   if (!mounted || isLoading) {
     return null;

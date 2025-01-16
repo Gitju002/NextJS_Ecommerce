@@ -1,5 +1,5 @@
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
+import { columns } from "./(component)/columns";
+import DataTable from "./(component)/data-table";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
@@ -27,7 +27,7 @@ const Products = () => {
       <Button className="mb-5" onClick={() => router.push("/products/add")}>
         Add Product
       </Button>
-      <DataTable columns={columns} data={products} />
+      <DataTable columns={columns} data={products || []} />
     </div>
   );
 };
