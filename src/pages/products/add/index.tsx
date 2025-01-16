@@ -25,7 +25,7 @@ import ReactSelect from "react-select";
 import { Textarea } from "@/components/ui/textarea";
 import { multiSelectStyles } from "@/utils/colorOptions";
 import { useAppDispatch } from "@/store/hooks";
-import { addProduct } from "@/store/features/productSlice";
+import { addProduct, resetProductState } from "@/store/features/productSlice";
 import { fileToBase64 } from "@/utils/convert";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -38,6 +38,7 @@ const sizeSchema = z.object({
 const colorSchema = z.object({
   label: z.string(),
   value: z.string(),
+  color: z.string(),
 });
 
 const formSchema = z.object({
@@ -113,9 +114,10 @@ export default function MyForm() {
     if (success) {
       toast.success(message);
       form.reset();
-    } else {
+    } else if (error) {
       toast.error(message);
     }
+    dispatch(resetProductState());
   }, [success, error, message]);
 
   if (!mounted || isLoading) {
@@ -123,11 +125,11 @@ export default function MyForm() {
   }
 
   return (
-    <section className="py-5 bg-slate-500">
+    <section className="py-5 bg-slate-50 ">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-3xl mx-auto rounded-lg p-10 bg-white"
+          className="space-y-8 max-w-3xl mx-auto rounded-lg p-10 bg-slate-100 border-2 border-blue-200 shadow-md"
         >
           <FormField
             control={form.control}
@@ -139,7 +141,7 @@ export default function MyForm() {
                 </FormLabel>
                 <FormControl>
                   <div
-                    className="w-full h-32 rounded-sm border border-dashed flex flex-col justify-center items-center cursor-pointer"
+                    className="w-full h-32 rounded-md bg-white shadow-sm border border-dashed flex flex-col justify-center items-center cursor-pointer"
                     onClick={() => fileref.current?.click()}
                   >
                     <Cloud className="size-10 text-slate-500" />
@@ -206,7 +208,7 @@ export default function MyForm() {
                   <Input
                     placeholder="Enter Product name"
                     type="text"
-                    className="text-black"
+                    className="text-black bg-white"
                     {...field}
                   />
                 </FormControl>
@@ -228,7 +230,7 @@ export default function MyForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="text-black">
+                    <SelectTrigger className="text-black bg-white shadow-sm">
                       <SelectValue placeholder="Select product category" />
                     </SelectTrigger>
                   </FormControl>
@@ -266,7 +268,7 @@ export default function MyForm() {
                         onChange={(selected) => {
                           field.onChange(selected);
                         }}
-                        className="text-black"
+                        className="text-black shadow-sm"
                         classNamePrefix="select"
                       />
                     </FormControl>
@@ -289,11 +291,11 @@ export default function MyForm() {
                         isMulti
                         name={field.name}
                         options={colorOptions}
-                        value={field.value} // Bind to the form field
+                        value={field.value}
                         onChange={(selected) => {
                           field.onChange(selected);
                         }}
-                        className="basic-multi-select"
+                        className="basic-multi-select shadow-sm"
                         classNamePrefix="select"
                         styles={multiSelectStyles}
                       />
@@ -315,7 +317,7 @@ export default function MyForm() {
                   <Input
                     placeholder="Enter Product Price"
                     type="text"
-                    className="text-black"
+                    className="text-black shadow-sm bg-white"
                     {...field}
                   />
                 </FormControl>
@@ -336,7 +338,7 @@ export default function MyForm() {
                 <FormControl>
                   <Textarea
                     placeholder="Enter Product Description"
-                    className="resize-none text-black"
+                    className="text-black shadow-sm bg-white"
                     {...field}
                   />
                 </FormControl>
@@ -345,9 +347,15 @@ export default function MyForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="mx-auto">
-            Submit
-          </Button>
+
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              className="mx-auto shadow-md text-lg bg-blue-500"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </Form>
     </section>

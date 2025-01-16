@@ -54,10 +54,32 @@ export const productsSlice = createSlice({
         }
       }
     },
+    getProducts: (state) => {
+      const storedProducts = localStorage.getItem("products");
+      state.isLoading = true;
+      if (storedProducts === null) {
+        state.isLoading = false;
+        state.error = true;
+        state.success = false;
+        state.message = "No products found";
+      } else {
+        state.products = JSON.parse(storedProducts);
+        state.isLoading = false;
+        state.error = false;
+        state.success = true;
+        state.message = "Products fetched successfully";
+      }
+    },
+    resetProductState: (state) => {
+      state.success = false;
+      state.error = false;
+      state.message = null;
+    },
   },
 });
 
-export const { addProduct } = productsSlice.actions;
+export const { addProduct, getProducts, resetProductState } =
+  productsSlice.actions;
 
 export const selectProduct = (state: RootState) => state.products;
 
