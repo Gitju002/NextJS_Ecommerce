@@ -79,15 +79,15 @@ const Analytic = () => {
 
   console.log(chartData, chartConfig);
   return (
-    <div className="min-h-[91vh] border p-8 bg-slate-50 grid grid-cols-6 gap-3">
-      <div className="col-span-3">
+    <div className="min-h-[91vh] border p-8 bg-slate-50 grid lg:grid-cols-6 gap-3">
+      <div className="lg:col-span-3">
         <CategoryChart
           chartConfig={chartConfig}
           chartData={chartData}
           totalProducts={totalProducts}
         />
       </div>
-      <div className="col-span-3">
+      <div className="lg:col-span-3">
         <ProductCountGraph
           chartData={chartData}
           totalProducts={totalProducts}
