@@ -23,12 +23,13 @@ import {
 } from "@/components/ui/select";
 import ReactSelect from "react-select";
 import { Textarea } from "@/components/ui/textarea";
-import { multiSelectStyles } from "@/utils/colorOptions";
+import { colorOptions, multiSelectStyles } from "@/utils/colorOptions";
 import { useAppDispatch } from "@/store/hooks";
 import { addProduct, resetProductState } from "@/store/features/productSlice";
 import { fileToBase64 } from "@/utils/convert";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { sizeOptions } from "@/utils/sizeOptions";
 
 const sizeSchema = z.object({
   label: z.string(),
@@ -50,26 +51,6 @@ const formSchema = z.object({
   product_price: z.string().min(1),
   product_description: z.string().min(10).max(500),
 });
-
-const colorOptions = [
-  { label: "Red", value: "red", color: "#FF5630" },
-  { label: "Blue", value: "blue", color: "#0052CC" },
-  { label: "Green", value: "green", color: "#36B37E" },
-  { label: "Yellow", value: "yellow", color: "#FFAB00" },
-  { label: "Black", value: "black", color: "#253858" },
-  { label: "White", value: "white", color: "#FFFFFF" },
-  { label: "Purple", value: "purple", color: "#6554C0" },
-  { label: "Pink", value: "pink", color: "#FF8B8B" },
-];
-
-const sizeOptions = [
-  { label: "XS", value: "xs" },
-  { label: "S", value: "s" },
-  { label: "M", value: "m" },
-  { label: "L", value: "l" },
-  { label: "XL", value: "xl" },
-  { label: "XXL", value: "xxl" },
-];
 
 export default function MyForm() {
   const [mounted, setMounted] = useState(false);
@@ -167,7 +148,7 @@ export default function MyForm() {
                   </div>
                 </FormControl>
                 {form.watch("picture") !== null && (
-                  <div className="flex justify-between items-center w-full border rounded-sm p-2 text-slate-500">
+                  <div className="flex justify-between items-center w-full border rounded-sm p-2 bg-white shadow-sm text-slate-500">
                     <p>File Name: {form.watch("picture")?.name}</p>
                     {
                       <p>

@@ -20,14 +20,19 @@ const Products = () => {
       toast.success(message);
     }
     dispatch(resetProductState());
-  }, []);
+  }, [dispatch, message]);
 
   return (
-    <div className="container min-h-screen border p-10 bg-slate-50">
-      <Button className="mb-5" onClick={() => router.push("/products/add")}>
+    <div className="min-h-[91vh] border p-8 bg-slate-50">
+      <Button
+        className="mb-5 bg-blue-400"
+        onClick={() => router.push("/products/add")}
+      >
         Add Product
       </Button>
-      <DataTable columns={columns} data={products || []} />
+      <div className="rounded-md border-2 border-blue-200 bg-white">
+        <DataTable columns={columns} data={products || []} />
+      </div>
     </div>
   );
 };

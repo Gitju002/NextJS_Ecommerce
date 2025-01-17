@@ -1,5 +1,15 @@
 import { StylesConfig } from "react-select";
 import chroma from "chroma-js";
+export const colorOptions = [
+  { label: "Red", value: "red", color: "#FF5630" },
+  { label: "Blue", value: "blue", color: "#0052CC" },
+  { label: "Green", value: "green", color: "#36B37E" },
+  { label: "Yellow", value: "yellow", color: "#FFAB00" },
+  { label: "Black", value: "black", color: "#253858" },
+  { label: "White", value: "white", color: "#FFFFFF" },
+  { label: "Purple", value: "purple", color: "#6554C0" },
+  { label: "Pink", value: "pink", color: "#FF8B8B" },
+];
 
 const dot = (color = "transparent") => ({
   alignItems: "center",
@@ -42,7 +52,7 @@ export const multiSelectStyles: StylesConfig = {
       backgroundColor: isDisabled
         ? undefined
         : isSelected
-        ?(data as ColourOption).color
+        ? (data as ColourOption).color
         : isFocused
         ? color.alpha(0.1).css()
         : undefined,
@@ -66,7 +76,9 @@ export const multiSelectStyles: StylesConfig = {
   },
   multiValue: (styles, { data }) => ({
     ...styles,
-    backgroundColor: chroma((data as ColourOption).color).alpha(0.2).css(),
+    backgroundColor: chroma((data as ColourOption).color)
+      .alpha(0.2)
+      .css(),
     borderRadius: "4px",
     padding: "2px",
   }),
