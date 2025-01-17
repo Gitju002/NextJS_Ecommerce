@@ -1,6 +1,3 @@
-"use client";
-
-import { TrendingUp } from "lucide-react";
 import {
   Area,
   AreaChart,
@@ -19,7 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function ProductCountGraph({
+function ProductCountGraph({
   chartData,
   totalProducts,
 }: {
@@ -74,3 +71,5 @@ export function ProductCountGraph({
     </Card>
   );
 }
+
+export default ProductCountGraph;

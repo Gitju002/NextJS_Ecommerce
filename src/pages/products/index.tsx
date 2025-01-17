@@ -20,7 +20,7 @@ const Products = () => {
       toast.success(message);
     }
     dispatch(resetProductState());
-  }, []);
+  }, [dispatch, message]);
 
   return (
     <div className="min-h-[91vh] border p-8 bg-slate-50">

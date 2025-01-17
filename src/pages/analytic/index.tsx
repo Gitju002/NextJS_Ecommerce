@@ -1,11 +1,11 @@
 import React from "react";
-import { CategoryChart } from "@/pages/analytic/(component)/pieChart";
+import CategoryChart from "@/pages/analytic/(component)/pieChart";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { getProducts } from "@/store/features/productSlice";
 import { toast } from "sonner";
 import { ChartConfig } from "@/components/ui/chart";
-import { ProductCountGraph } from "./(component)/areaChart";
+import ProductCountGraph from "./(component)/areaChart";
 const predefinedColors = [
   "#FF6384", // Red
   "#36A2EB", // Blue
@@ -83,13 +83,13 @@ const Analytic = () => {
       <div className="lg:col-span-3">
         <CategoryChart
           chartConfig={chartConfig}
-          chartData={chartData}
+          chartData={chartData || []}
           totalProducts={totalProducts}
         />
       </div>
       <div className="lg:col-span-3">
         <ProductCountGraph
-          chartData={chartData}
+          chartData={chartData || []}
           totalProducts={totalProducts}
         />
       </div>

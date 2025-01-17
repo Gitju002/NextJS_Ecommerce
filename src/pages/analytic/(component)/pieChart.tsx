@@ -15,10 +15,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-export function CategoryChart({
-  chartData,
-  chartConfig,
-  totalProducts,
+function CategoryChart({
+  chartData = [],
+  chartConfig = {},
+  totalProducts = 0,
 }: {
   chartData: { category: string; count: number; fill: string }[];
   chartConfig: ChartConfig;
@@ -50,7 +50,7 @@ export function CategoryChart({
               outerRadius={80}
               strokeWidth={5}
             >
-              {chartData.map((entry, index) => (
+              {chartData?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.fill} />
               ))}
               <Label
@@ -97,3 +97,4 @@ export function CategoryChart({
     </Card>
   );
 }
+export default CategoryChart;
