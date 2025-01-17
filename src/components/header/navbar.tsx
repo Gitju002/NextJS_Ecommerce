@@ -13,7 +13,7 @@ const routes = [
 
 const Navbar = () => {
   return (
-    <nav className="container fixed bg-white border h-16 flex items-center w-full">
+    <nav className="p-5 fixed bg-white border h-16 flex items-center w-full">
       <ul className="flex gap-5 text-slate-600 text-sm md:text-lg xl:text-2xl">
         {routes.map((route, index) => {
           return (
