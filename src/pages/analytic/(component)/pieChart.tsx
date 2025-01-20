@@ -25,10 +25,10 @@ function CategoryChart({
   totalProducts: number;
 }) {
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Products by Category</CardTitle>
-        <CardDescription>
+    <Card className="flex flex-col bg-gradient-to-tl from-[#493062] to-[#3b3980] border border-white/20">
+      <CardHeader className="items-center pb-0 text-white">
+        <CardTitle className="text-2xl">Products by Category</CardTitle>
+        <CardDescription className="text-violet-200 text-lg">
           Distribution of products across categories
         </CardDescription>
       </CardHeader>
@@ -46,8 +46,8 @@ function CategoryChart({
               data={chartData}
               dataKey="count"
               nameKey="category"
-              innerRadius={60}
-              outerRadius={80}
+              innerRadius={80}
+              outerRadius={100}
               strokeWidth={5}
             >
               {chartData?.map((entry, index) => (
@@ -66,16 +66,16 @@ function CategoryChart({
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-white text-3xl font-bold"
                         >
                           {totalProducts}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
+                          className="fill-violet-200 text-lg"
                         >
-                          Categories
+                          Products
                         </tspan>
                       </text>
                     );
@@ -87,10 +87,10 @@ function CategoryChart({
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
+        <div className="flex items-center gap-2 font-medium leading-none text-violet-100 text-base">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="leading-none text-muted-foreground text-white text-lg">
           Showing product distribution across categories
         </div>
       </CardFooter>

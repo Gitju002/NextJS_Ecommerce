@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import { getProducts, resetProductState } from "@/store/features/productSlice";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
+import CustomButton from "@/components/custom-button";
 
 const Products = () => {
   const { products, message } = useSelector(
@@ -23,14 +23,17 @@ const Products = () => {
   }, [dispatch, message]);
 
   return (
-    <div className="min-h-[91vh] border p-8 bg-slate-50">
-      <Button
-        className="mb-5 bg-blue-400"
-        onClick={() => router.push("/products/add")}
-      >
-        Add Product
-      </Button>
-      <div className="rounded-md border-2 border-blue-200 bg-white">
+    <div className="min-h-[91.3vh] p-8 flex flex-col gap-6 items-center">
+      <div className="flex justify-end w-4/5 mx-auto">
+        <CustomButton
+          onClick={() => {
+            router.push("/products/add");
+          }}
+        >
+          Add Product
+        </CustomButton>
+      </div>
+      <div className="rounded-md border border-white/10 text-white bg-[#3b2a69]/60 w-4/5 p-4">
         <DataTable columns={columns} data={products || []} />
       </div>
     </div>
