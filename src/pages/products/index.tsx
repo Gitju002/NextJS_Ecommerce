@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useEffect } from "react";
 import { getProducts, resetProductState } from "@/store/features/productSlice";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 import CustomButton from "@/components/custom-button";

@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import ReactSelect from "react-select";
 import { sizeOptions } from "@/utils/sizeOptions";
 import { colorOptions, multiSelectStyles } from "@/utils/colorOptions";
+import CustomButton from "@/components/custom-button";
 
 const EditHelperComponent = ({ product_name }: { product_name: string }) => {
   const { product, success } = useSelector(
@@ -57,9 +58,9 @@ const EditHelperComponent = ({ product_name }: { product_name: string }) => {
           <Pencil size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="bg-[#3b2a69]/60 text-white">
         <SheetHeader>
-          <SheetTitle>Edit Product</SheetTitle>
+          <SheetTitle className="text-white text-xl">Edit Product</SheetTitle>
           <SheetClose />
         </SheetHeader>
         <div className="py-4 space-y-2">
@@ -151,7 +152,7 @@ const EditHelperComponent = ({ product_name }: { product_name: string }) => {
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button
+            <CustomButton
               type="submit"
               onClick={() => {
                 console.log("Updated Product:", fetchedProduct);
@@ -163,7 +164,7 @@ const EditHelperComponent = ({ product_name }: { product_name: string }) => {
               }}
             >
               Save changes
-            </Button>
+            </CustomButton>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

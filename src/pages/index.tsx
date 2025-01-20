@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { columns } from "@/pages/products/(component)/columns";
 import CustomButton from "@/components/custom-button";
 
-const index = () => {
+const LandingPage = () => {
   const { products, message } = useSelector(
     (state: RootState) => state.products
   );
@@ -67,4 +67,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default LandingPage;
