@@ -79,7 +79,7 @@ const Analytic = () => {
 
   console.log(chartData, chartConfig);
   return (
-    <div className="min-h-[91vh] border p-8 bg-slate-50 grid lg:grid-cols-6 gap-3">
+    <div className="min-h-[91.3vh] p-8 grid lg:grid-cols-6 gap-3">
       <div className="lg:col-span-3">
         <CategoryChart
           chartConfig={chartConfig}

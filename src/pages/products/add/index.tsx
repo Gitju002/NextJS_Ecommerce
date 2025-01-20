@@ -30,6 +30,7 @@ import { fileToBase64 } from "@/utils/convert";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { sizeOptions } from "@/utils/sizeOptions";
+import CustomButton from "@/components/custom-button";
 
 const sizeSchema = z.object({
   label: z.string(),
@@ -108,27 +109,27 @@ export default function MyForm() {
   }
 
   return (
-    <section className="py-5 bg-slate-50 ">
+    <section className="py-5">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 max-w-3xl mx-auto rounded-lg p-10 bg-slate-100 border-2 border-blue-200 shadow-md"
+          className="space-y-8 max-w-3xl mx-auto rounded-lg p-10 bg-[#3b2a69]/60 border-2 border-blue-200 shadow-md text-white"
         >
           <FormField
             control={form.control}
             name="picture"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl text-slate-500">
-                  Upload Product Image
-                </FormLabel>
+                <FormLabel className="text-xl ">Upload Product Image</FormLabel>
                 <FormControl>
                   <div
-                    className="w-full h-32 rounded-md bg-white shadow-sm border border-dashed flex flex-col justify-center items-center cursor-pointer"
+                    className="w-full h-32 rounded-md bg-slate-300 shadow-sm border border-white/20 border-dashed flex flex-col justify-center items-center cursor-pointer"
                     onClick={() => fileref.current?.click()}
                   >
-                    <Cloud className="size-10 text-slate-500" />
-                    <div className="text-slate-400">Upload Image Here</div>
+                    <Cloud className="size-10" />
+                    <div className="text-slate-500 text-lg">
+                      Upload Image Here
+                    </div>
                     <input
                       type="file"
                       id="file"
@@ -148,7 +149,7 @@ export default function MyForm() {
                   </div>
                 </FormControl>
                 {form.watch("picture") !== null && (
-                  <div className="flex justify-between items-center w-full border rounded-sm p-2 bg-white shadow-sm text-slate-500">
+                  <div className="flex justify-between items-center w-full border rounded-sm p-2 bg-white shadow-sm ">
                     <p>File Name: {form.watch("picture")?.name}</p>
                     {
                       <p>
@@ -184,9 +185,7 @@ export default function MyForm() {
             name="product_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl text-slate-500">
-                  Product Name
-                </FormLabel>
+                <FormLabel className="text-xl ">Product Name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter Product name"
@@ -205,9 +204,7 @@ export default function MyForm() {
             name="product_category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl text-slate-500">
-                  Categories
-                </FormLabel>
+                <FormLabel className="text-xl">Categories</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -239,9 +236,7 @@ export default function MyForm() {
                 name="product_sizes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xl text-slate-500">
-                      Sizes
-                    </FormLabel>
+                    <FormLabel className="text-xl">Sizes</FormLabel>
                     <FormControl>
                       <ReactSelect
                         isMulti
@@ -266,9 +261,7 @@ export default function MyForm() {
                 name="product_color"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xl text-slate-500">
-                      Colors
-                    </FormLabel>
+                    <FormLabel className="text-xl ">Colors</FormLabel>
                     <FormControl>
                       <ReactSelect
                         isMulti
@@ -295,7 +288,7 @@ export default function MyForm() {
             name="product_price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl text-slate-500">Price</FormLabel>
+                <FormLabel className="text-xl ">Price</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter Product Price"
@@ -315,9 +308,7 @@ export default function MyForm() {
             name="product_description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl text-slate-500">
-                  Description
-                </FormLabel>
+                <FormLabel className="text-xl ">Description</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Enter Product Description"
@@ -332,12 +323,9 @@ export default function MyForm() {
           />
 
           <div className="flex justify-center">
-            <Button
-              type="submit"
-              className="mx-auto shadow-md text-lg bg-blue-500"
-            >
+            <CustomButton type="submit" className="mx-auto shadow-md">
               Submit
-            </Button>
+            </CustomButton>
           </div>
         </form>
       </Form>

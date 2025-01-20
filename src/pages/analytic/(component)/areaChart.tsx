@@ -24,16 +24,18 @@ function ProductCountGraph({
   totalProducts: number;
 }) {
   return (
-    <Card>
+    <Card className="bg-gradient-to-tl from-[#493062] to-[#3b3980] border border-white/20">
       <CardHeader>
-        <CardTitle>Product Categories - Area Chart</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-white text-2xl font-bold">
+          Product Categories - Area Chart
+        </CardTitle>
+        <CardDescription className="text-violet-200 text-lg">
           Distribution of products across categories
         </CardDescription>
       </CardHeader>
       <CardContent>
         <AreaChart
-          width={600}
+          width={650}
           height={300}
           data={chartData}
           margin={{
@@ -61,10 +63,10 @@ function ProductCountGraph({
         </AreaChart>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
+        <div className="flex items-center gap-2 font-medium leading-none text-violet-200 text-base">
           Total Products: {totalProducts}
         </div>
-        <div className="leading-none text-muted-foreground">
+        <div className="leading-none text-muted-foreground text-white text-lg">
           Showing product distribution across categories
         </div>
       </CardFooter>
